@@ -1,5 +1,6 @@
 package com.kiran.ecommerce.order;
 
+import com.kiran.ecommerce.product.PurchaseRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ public record OrderRequest(
         String customerId,
 
         @NotEmpty(message = "You should atleast purchase one product")
-        List<OrderRequest> products
+        List<PurchaseRequest> products
 
 
 ) {
