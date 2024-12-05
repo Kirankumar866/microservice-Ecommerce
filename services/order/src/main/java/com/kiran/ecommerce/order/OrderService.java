@@ -6,6 +6,8 @@ import com.kiran.ecommerce.kafka.OrderConfirmation;
 import com.kiran.ecommerce.kafka.OrderProducer;
 import com.kiran.ecommerce.orderline.OrderLineRequest;
 import com.kiran.ecommerce.orderline.OrderLineService;
+import com.kiran.ecommerce.payment.PaymentClient;
+import com.kiran.ecommerce.payment.PaymentRequest;
 import com.kiran.ecommerce.product.ProductClient;
 import com.kiran.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,7 @@ public class OrderService {
     private final OrderMapper mapper;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     public Integer createdOrder(OrderRequest request) {
 
@@ -50,7 +53,16 @@ public class OrderService {
         }
 
 
-        // TO DO start payment process
+        // start payment process
+        paymentClient.requestOrderPayement(new PaymentRequest(
+                request.amount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        ));
+
+
         //send the order confirmation --> notification-ms(kafka)
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(

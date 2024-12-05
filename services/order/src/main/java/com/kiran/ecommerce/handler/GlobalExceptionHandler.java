@@ -1,6 +1,7 @@
 package com.kiran.ecommerce.handler;
 
-import com.kiran.ecommerce.exception.ProductPurchaseException;
+import com.kiran.ecommerce.exception.BusinessException;
+
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.HashMap;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProductPurchaseException.class)
-    public ResponseEntity<String> handle(ProductPurchaseException exp){
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handle(BusinessException exp){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(exp.getMessage());
+                .body(exp.getMsg());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
