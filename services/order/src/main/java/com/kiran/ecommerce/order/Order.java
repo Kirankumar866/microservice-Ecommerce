@@ -15,27 +15,30 @@ import static jakarta.persistence.EnumType.STRING;
 
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 @Table(name = "customer_order")
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(unique = true,  nullable = false)
     private String reference;
 
     private BigDecimal totalAmount;
 
-    @Enumerated(STRING)
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     private String customerId;
+
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
 
