@@ -5,6 +5,7 @@ import com.kiran.ecommerce.kafka.payment.PaymentMethod;
 import java.math.BigDecimal;
 import java.util.List;
 
+//Orderconfirmation
 public record OrderConfirmation(
         String orderReference,
         BigDecimal totalAmount,
