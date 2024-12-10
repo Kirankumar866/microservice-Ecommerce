@@ -4,6 +4,8 @@ import com.kiran.ecommerce.kafka.order.Product;
 import com.kiran.ecommerce.kafka.payment.PaymentConfirmation;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -64,7 +66,7 @@ public class EmailService {
             log.info(String.format("INFO - Email successfully sent to %s with template %s", destinationEmail,templateName));
 
         } catch(MessagingException e){
-            log.warn("Warning - Cannot send email to {}", destinationEmail);
+            log.warn(String.format("Warning - Cannot send email to {}", destinationEmail));
 
         }
 
