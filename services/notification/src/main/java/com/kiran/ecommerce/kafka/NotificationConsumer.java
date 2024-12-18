@@ -17,21 +17,28 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static com.kiran.ecommerce.notification.NotificationType.ORDER_CONFIRMATION;
+import static com.kiran.ecommerce.notification.NotificationType.PAYMENT_CONFIRMATION;
 import static java.lang.String.format;
 
 @Service
-@RequiredArgsConstructor
+
 public class NotificationConsumer {
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
     private final NotificationRepository notificationRepo;
     private final EmailService emailService;
+
+    public NotificationConsumer(NotificationRepository notificationRepo, EmailService emailService) {
+        this.notificationRepo = notificationRepo;
+        this.emailService = emailService;
+    }
 
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentSuccessNotification(PaymentConfirmation paymentConfirmation) throws MessagingException {
         log.info(format("Consuming the message from payment-topic Topic:: %s", paymentConfirmation));
         notificationRepo.save(
                 Notification.builder()
-                        .type(NotificationType.PAYMENT_CONFIRMATION)
+                        .type(PAYMENT_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
                         .paymentConfirmation(paymentConfirmation)
                         .build()
@@ -51,7 +58,7 @@ public class NotificationConsumer {
         log.info(format("Consuming the message from order-topic Topic:: %s", orderConfirmation));
         notificationRepo.save(
                 Notification.builder()
-                        .type(NotificationType.ORDER_CONFIRMATION)
+                        .type(ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
                         .orderConfirmation(orderConfirmation)
                         .build()

@@ -6,12 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentRepository paymentRepo;
     private final PaymentMapper mapper;
     private final NotificationProducer notificationProducer;
+
+    public PaymentService(PaymentRepository paymentRepo, PaymentMapper mapper, NotificationProducer notificationProducer) {
+        this.paymentRepo = paymentRepo;
+        this.mapper = mapper;
+        this.notificationProducer = notificationProducer;
+    }
 
     public Integer createPayment(PaymentRequest request) {
         var payment = paymentRepo.save(mapper.toPayment(request));
@@ -26,6 +31,7 @@ public class PaymentService {
                         request.customer().email()
                 )
         );
+        System.out.print(payment);
 
 
 

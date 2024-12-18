@@ -5,23 +5,23 @@ spring:
       password: kiran
       host: localhost
       port: 27017
-      database: customer
+      database: notification
       authentication-database: admin
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
       group-id: paymentGroup,orderGroup
-      auto-offser-reset: earliest
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: '*'
-        spring.json.type.mapping: orderConfirmation:com.kiran.ecommerce.kafka.OrderConfirmation,paymentConfirmation:com.kiran.ecommerce.notification.PaymentNotificationRequest
+        spring.json.type.mapping: orderConfirmation:com.kiran.ecommerce.kafka.order.OrderConfirmation,paymentConfirmation:com.kiran.ecommerce.notification.payment.PaymentConfirmation
   mail:
     host: localhost
     port: 1025
-    username: kirankumarparasa9996@gmail.com
-    password: 9396669996
+    username: kiran
+    password: kiran
     properties:
       mail:
         smtp:
